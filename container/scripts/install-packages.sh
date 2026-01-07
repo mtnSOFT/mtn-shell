@@ -11,7 +11,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   neovim \
   git git-lfs \
   dnsutils mtr iputils-ping ncat \
-  podman slirp4netns fuse-overlayfs uidmap \
+  podman podman-compose slirp4netns fuse-overlayfs uidmap \
   shellcheck shfmt \
   jq \
   bash-completion \
