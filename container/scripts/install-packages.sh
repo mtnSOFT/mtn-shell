@@ -37,6 +37,9 @@ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl kubectl.sha256
 
+# Install latest Helm
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 # cleanup to reduce image size
 apt-get clean
 rm -rf /var/lib/apt/lists/*
