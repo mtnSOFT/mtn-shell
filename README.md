@@ -5,6 +5,7 @@ shell in a container with tools for managing our infrastructure:
 - ansible
 - molecule (ansible testing)
 - prettier, yamllint, ...
+- kubectl, helm
 
 ## Requirements
 
