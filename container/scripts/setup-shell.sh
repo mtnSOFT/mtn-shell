@@ -16,10 +16,21 @@ __mtn_git_branch() {
 }
 BASH
 
-# PS1: bold MTN — M and N bright yellow, T bold blue; git branch printed immediately after MTN on same line
+# Helper to show lock status based on BW_SESSION
+cat >> /etc/bash.bashrc <<'BASH'
+__mtn_lock_status() {
+  if [ -n "${BW_SESSION:-}" ]; then
+    printf "🔒"  # Closed lock - bw session active
+  else
+    printf "🔓"  # Open lock - no bw session
+  fi
+}
+BASH
+
+# PS1: bold MTN — M and N bright yellow, T bold blue; lock status, git branch printed immediately after MTN on same line
 # user is shown in bold white, path in bright yellow; no cyan used
 cat >> /etc/bash.bashrc <<'BASH'
-export PS1='\[\e[1;93m\]M\[\e[1;34m\]T\[\e[1;93m\]N\[\e[0m\]$(__mtn_git_branch) \e[1;34m\]\w\[\e[0m\]\$ '
+export PS1='\[\e[1;93m\]M\[\e[1;34m\]T\[\e[1;93m\]N\[\e[0m\]$(__mtn_lock_status)$(__mtn_git_branch) \e[1;34m\]\w\[\e[0m\]\$ '
 BASH
 
 cat >> /etc/bash.bashrc <<'BASH'
