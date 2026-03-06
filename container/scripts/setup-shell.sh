@@ -20,9 +20,9 @@ BASH
 cat >> /etc/bash.bashrc <<'BASH'
 __mtn_lock_status() {
   if [ -n "${BW_SESSION:-}" ]; then
-    printf " 🔒"  # Closed lock - bw session active
+    printf " \e[0;32m●\e[0m"  # Green dot
   else
-    printf " "  # blank ... no bw session
+    printf " \e[0;31m●\e[0m"  # Red dot
   fi
 }
 BASH
