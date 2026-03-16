@@ -3,6 +3,8 @@ FROM ubuntu:24.04
 ENV HOME=/home/mtn-admin
 ARG USER_ID=1000
 ENV ANSIBLE_NO_LOG=false
+ENV USER=mtn-admin
+ENV USER_ID=${USER_ID}
 
 # Copy helper scripts and make executable
 COPY ./container/scripts /tmp/container-scripts
