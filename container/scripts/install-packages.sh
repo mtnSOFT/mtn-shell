@@ -14,6 +14,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   dnsutils mtr iputils-ping ncat \
   podman podman-compose slirp4netns fuse-overlayfs uidmap \
   shellcheck shfmt \
+  qrencode \
   jq \
   bash-completion \
   ssh \
