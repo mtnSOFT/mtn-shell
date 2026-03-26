@@ -17,7 +17,7 @@ shell in a container with tools for managing our infrastructure:
 
 ## Usage
 
-`source <(curl -s https://raw.githubusercontent.com/mtnstar/mtn-shell/refs/heads/main/source.sh)`
+`source <(curl -s https://raw.githubusercontent.com/mtnsoft/mtn-shell/refs/heads/main/source.sh)`
 
 provides the `mtn` command. You might want to add it to your `.bashrc`.
 
