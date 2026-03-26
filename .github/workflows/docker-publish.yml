@@ -30,8 +30,8 @@ jobs:
 
       - name: Build Container image
         run: |
-          podman build -t ghcr.io/mtnstar/mtn-shell:latest .
+          podman build -t ghcr.io/mtnsoft/mtn-shell:latest .
 
       - name: Push Container image
         run: |
-          podman push ghcr.io/mtnstar/mtn-shell:latest
+          podman push ghcr.io/mtnsoft/mtn-shell:latest
