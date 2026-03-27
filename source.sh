@@ -23,5 +23,5 @@ mtn() {
     --network=host \
     --tmpfs /tmp \
     --userns=keep-id:uid=$(id -u),gid=$(id -g) \
-    ghcr.io/mtnsoft/mtn-shell:latest bash
+    ghcr.io/mtnsoft/mtn-shell:latest bash --login
 }
