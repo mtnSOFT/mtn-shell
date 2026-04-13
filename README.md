@@ -23,7 +23,10 @@ BW_SSH_KEY_ID="vaultwarden-id-to-your-ssh-key"
 BW_ANSIBLE_VAULT_PASSWORD_ID='vaultwarden-id-to-your-ansible-password'
 ```
 
-`bw login`
+```
+bw config server https://my-vaultwarden-server.example.com
+bw login
+```
 
 ## Usage
 
