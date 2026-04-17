@@ -17,6 +17,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   qrencode \
   jq \
   bash-completion \
+  rsync \
   ssh \
   sudo \
   lsb-release \
