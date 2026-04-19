@@ -9,7 +9,6 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   curl wget \
   less \
   gnupg \
-  neovim \
   git git-lfs \
   dnsutils mtr iputils-ping ncat \
   podman podman-compose slirp4netns fuse-overlayfs uidmap \
@@ -42,6 +41,13 @@ rm kubectl kubectl.sha256
 
 # Install latest Helm
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Install latest stable Neovim
+NVIM_TAG=$(curl -fsSL "https://api.github.com/repos/neovim/neovim/releases/latest" | grep '"tag_name"' | head -1 | sed 's/.*"tag_name": "\(.*\)".*/\1/')
+curl -fsSL "https://github.com/neovim/neovim/releases/download/${NVIM_TAG}/nvim-linux-x86_64.tar.gz" -o /tmp/nvim.tar.gz
+tar -xzf /tmp/nvim.tar.gz -C /tmp
+cp -r /tmp/nvim-linux-x86_64/* /usr/local/
+rm -rf /tmp/nvim.tar.gz /tmp/nvim-linux-x86_64
 
 # cleanup to reduce image size
 apt-get clean
