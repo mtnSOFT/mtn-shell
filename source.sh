@@ -6,9 +6,22 @@ mtn() {
 
   while [ $# -gt 0 ]; do
     case "$1" in
-      --pull|--pull=*) pull_flag="--pull=always"; shift ;;
-      --) shift; while [ $# -gt 0 ]; do podman_args+=("$1"); shift; done; break ;;
-      *) podman_args+=("$1"); shift ;;
+    --pull | --pull=*)
+      pull_flag="--pull=always"
+      shift
+      ;;
+    --)
+      shift
+      while [ $# -gt 0 ]; do
+        podman_args+=("$1")
+        shift
+      done
+      break
+      ;;
+    *)
+      podman_args+=("$1")
+      shift
+      ;;
     esac
   done
 
@@ -18,6 +31,7 @@ mtn() {
   podman run --rm -it ${pull_flag} \
     -v /var/run/user/$(id -u)/podman/podman.sock:/var/run/user/1000/podman/podman.sock \
     -v ~/.mtn:/home/mtn-admin \
+    -v /dev/bus/usb:/dev/bus/usb \
     -v ~/.config/nvim:/home/mtn-admin/.config/nvim \
     -v ~/nextcloud/titan/config/ansible_inventories/production:/home/mtn-admin/git/infra/inventories/production \
     --cap-add=NET_RAW \
