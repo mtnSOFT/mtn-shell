@@ -11,6 +11,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   gnupg \
   git git-lfs \
   dnsutils mtr iputils-ping ncat \
+  wireguard-tools \
   podman podman-compose slirp4netns fuse-overlayfs uidmap \
   shellcheck shfmt \
   qrencode \
