@@ -32,11 +32,24 @@ Update the checkout later with `mtn --update` (runs `git pull --ff-only` and re-
 
 - copy things like required ssh keys, configs and other stuff you want to use in the container to `~/.mtn`
 
+### SSH keys (Bitwarden desktop)
+
+SSH keys are served by the SSH agent of the [Bitwarden desktop app](https://bitwarden.com/download/) on the host,
+the keys never enter the container:
+
+1. install the Bitwarden desktop app and log in to your Vaultwarden server (self-hosted)
+2. enable `Settings → SSH agent`
+3. store your keys as items of type **SSH key**
+
+`mtn` detects the agent socket of native, flatpak and snap installs and mounts it into the container.
+Set `BW_SSH_AUTH_SOCK` to use a different socket path. Check with `ssh-add -l` inside the shell;
+every key use has to be approved in the desktop app.
+
 ### Bitwarden Cli
 
-create ~./mtn-env with the following content:
+The Bitwarden CLI provides the ansible vault password. Create `~/.mtn/.mtn-env` with the following content:
+
 ```
-BW_SSH_KEY_ID="vaultwarden-id-to-your-ssh-key"
 BW_ANSIBLE_VAULT_PASSWORD_ID='vaultwarden-id-to-your-ansible-password'
 ```
 
@@ -44,6 +57,8 @@ BW_ANSIBLE_VAULT_PASSWORD_ID='vaultwarden-id-to-your-ansible-password'
 bw config server https://my-vaultwarden-server.example.com
 bw login
 ```
+
+A `.ansible_vault_pass.txt` left over from older versions in `~/.mtn` is no longer used and can be deleted.
 
 ## Usage
 
@@ -57,7 +72,7 @@ bw login
 
 Everything after `--` is passed to `podman run`.
 
-unlock bitwarden cli with `. unlock` after entering shell by `mtn`
+unlock the bitwarden cli with `. bw-login` after entering the shell by `mtn`; ansible then reads the vault password from Bitwarden on demand
 
 ## Tools
 

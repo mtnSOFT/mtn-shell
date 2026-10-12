@@ -1,9 +1,0 @@
-#!/bin/bash
-
-source ~/.mtn-env
-
-BW_SESSION=$(bw unlock --raw)
-export BW_SESSION
-
-bw get item "$BW_SSH_KEY_ID" | jq -r '.sshKey.privateKey' | ssh-add -
-bw get password "$BW_ANSIBLE_VAULT_PASSWORD_ID" > ~/.ansible_vault_pass.txt

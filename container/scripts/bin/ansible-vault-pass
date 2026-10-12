@@ -1,0 +1,19 @@
+#!/bin/bash
+# Ansible vault password client: prints the vault password from Bitwarden.
+set -euo pipefail
+
+if [ -f ~/.mtn-env ]; then
+  # shellcheck source=/dev/null
+  source ~/.mtn-env
+fi
+
+if [ -z "${BW_SESSION:-}" ]; then
+  echo "ansible-vault-pass: Bitwarden is locked, run '. bw-login' first" >&2
+  exit 1
+fi
+if [ -z "${BW_ANSIBLE_VAULT_PASSWORD_ID:-}" ]; then
+  echo "ansible-vault-pass: BW_ANSIBLE_VAULT_PASSWORD_ID is not set in ~/.mtn-env" >&2
+  exit 1
+fi
+
+bw get password "$BW_ANSIBLE_VAULT_PASSWORD_ID"

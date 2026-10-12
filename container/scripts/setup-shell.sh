@@ -27,18 +27,22 @@ __mtn_lock_status() {
 }
 BASH
 
-# PS1: bold MTN — M and N bright yellow, T bold blue; lock status, git branch printed immediately after MTN on same line
+# Helper to show a key when the Bitwarden desktop SSH agent socket is mounted
+cat >> /etc/bash.bashrc <<'BASH'
+__mtn_ssh_agent_status() {
+  if [ -S "${SSH_AUTH_SOCK:-}" ]; then
+    printf " \001\e[0;32m\002⚿\001\e[0m\002"  # Green key
+  fi
+}
+BASH
+
+# PS1: bold MTN — M and N bright yellow, T bold blue; lock status, ssh agent status, git branch printed immediately after MTN on same line
 # user is shown in bold white, path in bright yellow; no cyan used
 cat >> /etc/bash.bashrc <<'BASH'
-export PS1='\[\e[1;93m\]M\[\e[1;34m\]T\[\e[1;93m\]N\[\e[0m\]$(__mtn_lock_status)$(__mtn_git_branch) \[\e[1;34m\]\w\[\e[0m\]\$ '
+export PS1='\[\e[1;93m\]M\[\e[1;34m\]T\[\e[1;93m\]N\[\e[0m\]$(__mtn_lock_status)$(__mtn_ssh_agent_status)$(__mtn_git_branch) \[\e[1;34m\]\w\[\e[0m\]\$ '
 BASH
 
 cat >> /etc/bash.bashrc <<'BASH'
 source /opt/mtn-shell/bin/findup.sh
 source /opt/mtn-shell/bin/ssh.sh
-BASH
-
-# Start ssh-agent
-cat >> /etc/bash.bashrc <<'BASH'
-eval $(ssh-agent -s) > /dev/null
 BASH

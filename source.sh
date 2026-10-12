@@ -47,6 +47,26 @@ mtn() {
   mkdir -p ~/.mtn
   systemctl --user start podman.socket
 
+  # Bitwarden desktop SSH agent on the host (native, flatpak, snap)
+  local bw_sock=""
+  local bw_args=()
+  local candidate
+  for candidate in \
+    "${BW_SSH_AUTH_SOCK:-}" \
+    ~/.bitwarden-ssh-agent.sock \
+    ~/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock \
+    ~/snap/bitwarden/current/.bitwarden-ssh-agent.sock; do
+    if [ -n "$candidate" ] && [ -S "$candidate" ]; then
+      bw_sock="$candidate"
+      break
+    fi
+  done
+  if [ -n "$bw_sock" ]; then
+    bw_args=(-v "$bw_sock":/run/bw-ssh-agent.sock -e SSH_AUTH_SOCK=/run/bw-ssh-agent.sock)
+  else
+    echo "mtn: Bitwarden desktop SSH agent not found, ssh keys unavailable" >&2
+  fi
+
   podman run --rm -it ${pull_flag} \
     -v /var/run/user/$(id -u)/podman/podman.sock:/var/run/user/1000/podman/podman.sock \
     -v ~/.mtn:/home/mtn-admin \
@@ -57,5 +77,7 @@ mtn() {
     --network=host \
     --tmpfs /tmp \
     --userns=keep-id:uid=$(id -u),gid=$(id -g) \
+    "${bw_args[@]}" \
+    "${podman_args[@]}" \
     ghcr.io/mtnsoft/mtn-shell:latest bash --login
 }

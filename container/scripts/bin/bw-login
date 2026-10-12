@@ -1,0 +1,15 @@
+#!/bin/bash
+# Unlock the Bitwarden CLI and export BW_SESSION into the current shell.
+# Must be sourced: `. bw-login`
+
+if [ -f ~/.mtn-env ]; then
+  # shellcheck source=/dev/null
+  source ~/.mtn-env
+fi
+
+if ! BW_SESSION=$(bw unlock --raw) || [ -z "$BW_SESSION" ]; then
+  unset BW_SESSION
+  echo "bw-login: unlock failed" >&2
+  return 1 2>/dev/null || exit 1
+fi
+export BW_SESSION
